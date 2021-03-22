@@ -1,0 +1,21 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int main()
+{
+	int T, M;//时间，物品数
+	cin >> T >> M;
+	//vector<vector<int>> dp(M + 1, vector<int>(T + 1, 0)); 未简化版本
+	vector<int> dp(T + 1, 0);//简化版本
+	for (int i = 1; i <= M; ++i)//当前物品
+	{
+		int t, m;
+		cin >> t >> m;
+		for (int j = T; j >= t; --j)
+			//dp[i][j] = max(dp[i][j], dp[i - 1][j - t] + m);未简化版本
+			dp[j] = max(dp[j], dp[j - t] + m);//简化版本
+	}
+	cout << dp[T];//简化版本
+}

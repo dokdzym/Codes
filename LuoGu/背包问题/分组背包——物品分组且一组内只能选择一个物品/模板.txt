@@ -1,0 +1,4 @@
+for (所有的组k)
+    for (int j = V; j >= 0; j--)
+        for (所有属于组k的i)
+            f[j] = max{f[j], f[j - w[i]] + v[i]}

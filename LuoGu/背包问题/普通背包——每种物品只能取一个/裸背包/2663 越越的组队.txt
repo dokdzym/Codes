@@ -1,0 +1,31 @@
+//正解应该是这个，这个答案洛谷出了问题。最后一个WA输入是：
+//4
+//50
+//1
+//24
+//25
+//官方的输出是49。按照题意，正确答案显然应该是50,这个代码正确！
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int main()
+{
+	int n, v, total = 0;
+	cin >> n;
+	vector<int> data(n + 1, 0);
+	for (int i = 1; i <= n; ++i)
+	{
+		int tmp;
+		cin >> tmp;
+		total += tmp;
+		data[i] = tmp;
+	}
+	v = total >> 1;
+	vector<int> dp(v + 1, 0);
+	for (int i = 1; i <= n; ++i)
+		for (int j = v; j >= data[i]; --j)
+			dp[j] = max(dp[j - data[i]] + data[i], dp[j]);
+	cout << dp[v];
+}

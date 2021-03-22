@@ -1,0 +1,22 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int main()
+{
+	int m, x, N;
+	cin >> N >> m >> x;
+	vector<vector<int>> dp(m + 1, vector<int>(x + 1, 0));
+	vector<int> M(N + 1, 0);//伪装能力
+	vector<int> X(N + 1, 0);//要求的工资
+	vector<int> got(N + 1, 0);//拿到的资料
+	for (int i = 1; i <= N; ++i)
+		cin >> got[i] >> M[i] >> X[i];
+
+	for (int i = 1; i <= N; ++i)
+		for (int j = m; j >= M[i]; --j)
+			for (int k = x; k >= X[i]; --k)
+				dp[j][k] = max(dp[j - M[i]][k - X[i]] + got[i], dp[j][k]);
+	cout<< dp[m][x];
+}

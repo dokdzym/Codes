@@ -1,0 +1,22 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int main()
+{
+	int v, w, n;
+	cin >> v >> w >> n;
+	vector<vector<int>> dp(v + 1, vector<int>(w + 1, 0));
+	vector<int> V(n + 1, 0);
+	vector<int> W(n + 1, 0);
+	vector<int> calory(n + 1, 0);
+	for (int i = 1; i <= n; ++i)
+		cin >> V[i] >> W[i] >> calory[i];
+
+	for (int i = 1; i <= n; ++i)
+		for (int j = v; j >= V[i]; --j)
+			for (int k = w; k >= W[i]; --k)
+				dp[j][k] = max(dp[j - V[i]][k - W[i]] + calory[i], dp[j][k]);
+	cout<< dp[v][w];
+}

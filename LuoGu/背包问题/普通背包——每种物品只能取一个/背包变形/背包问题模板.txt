@@ -1,0 +1,4 @@
+for（auto i : 需要遍历的所有情况）//取或者不取 
+     for（int j = 容量; j >= i.体积; -- j）
+	dp[j] = max （dp[j - i.体积] + i.价值，dp[j]）；
+return dp[容量];

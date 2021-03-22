@@ -1,0 +1,20 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int main()
+{
+	int S;
+	cin >> S;
+	vector<int> a(S + 1, 0);
+	for (int i = 1; i <= S / 2; i++)//循环每个数（小优化：因为i*j<=n j>=2 所以i<=n/2）
+		for (int j = 2; i * j <= S; j++)//循环倍数（排除本身，从2开始）
+			a[i * j] += i;//目标数加上约数
+	//背包体积是S
+	vector<int> dp(S + 1, 0);
+	for (int i = 1; i <= S; ++i)//物品类型从1到S都可以取，每种类型只有一个
+		for (int j = S; j >= i; --j)
+			dp[j] = max(dp[j], dp[j - i] + a[i]);
+	cout << dp[S];
+}

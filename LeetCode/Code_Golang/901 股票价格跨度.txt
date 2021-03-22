@@ -1,0 +1,29 @@
+type node struct{
+    price int
+    weight int
+}
+type StockSpanner struct {
+    stack []node
+}
+
+
+func Constructor() StockSpanner {
+    return StockSpanner{[]node{}}
+}
+
+
+func (this *StockSpanner) Next(price int) int {
+    res := 1
+    for len(this.stack) >= 1 && this.stack[len(this.stack) - 1].price <= price{//栈不为空，并且栈顶的元素价格小于等于price
+        res += this.stack[len(this.stack) - 1].weight
+        this.stack = this.stack[:len(this.stack) - 1]//出栈
+    }
+    this.stack = append(this.stack,node{
+        price, res})
+    return this.stack[len(this.stack) - 1].weight
+}
+/**
+ * Your StockSpanner object will be instantiated and called as such:
+ * obj := Constructor();
+ * param_1 := obj.Next(price);
+ */

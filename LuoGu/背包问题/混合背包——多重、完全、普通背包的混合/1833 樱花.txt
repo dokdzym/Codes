@@ -1,0 +1,45 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<cmath>
+#include<string>
+using namespace std;
+
+int main()
+{
+	int x1, y1, x2, y2;
+	scanf("%d:%d %d:%d", &x1, &y1, &x2, &y2);
+	if (y1 > y2)
+	{
+		y2 += 60;
+		x2--;
+	}
+	int time = (x2 - x1) * 60 + y2 - y1;
+	int n;
+	cin >> n;
+	vector<int> dp(time + 1, 0);
+	vector<int> t(n + 1, 0);//时间
+	vector<int> c(n + 1, 0);//美学值
+	vector<int> p(n + 1, 0);//观看次数
+	for (int i = 1; i <= n; ++i)
+		cin >> t[i] >> c[i] >> p[i];
+
+	for (int i = 1; i <= n; ++i)
+	{
+		if (p[i] == 0)//无限次，是完全背包问题
+			for (int j = t[i]; j <= time; ++j)//完全背包用正序+一维数组即可
+				dp[j] = max(dp[j], dp[j - t[i]] + c[i]);
+		else//不是无限次，即不同物品有不同的次数，是多重背包问题
+		{
+			int num = min(p[i], time / t[i]);
+			for (int j = 1; num > 0; j <<= 1)//二进制优化
+			{
+				if (j > num) j = num;
+				num -= j;
+				for (int k = time; k >= t[i] * j; --k)//多重背包用逆序+一维数组即可
+					dp[k] = max(dp[k], dp[k - t[i] * j] + c[i] * j);
+			}
+		}
+	}
+	cout << dp[time];
+}
